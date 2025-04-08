@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 def create_app(employee_directory=None) -> Flask:
     import pandas as pd
@@ -9,6 +10,7 @@ def create_app(employee_directory=None) -> Flask:
     from typing import Dict
 
     app = Flask(__name__)
+    CORS(app)
 
     def generate_employees_directory() -> Dict[str, Employee]:
         SHEET_NAME = "Giga Corp (40k) - Sheet1 short.csv"
