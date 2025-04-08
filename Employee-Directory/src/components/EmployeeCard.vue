@@ -8,7 +8,7 @@
     <p class="text-center text-sm text-gray-500">{{ employee.job_title }}</p>
 
     <!-- Double Column Layout -->
-    <div class="grid grid-flow-col grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
       <div class="text-gray-700">
         <strong>Email:</strong>
         <p>{{ employee.email }}</p>
@@ -56,31 +56,36 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { fetchEmployeeData } from '../services/employeeService' // Import the fetch function
 
 const employee = ref(null)
-const employeeId = 'p_DrnEHzsrxaHOPnwwNDBwy' // Replace this with the dynamic ID to fetch
+const error = ref(null)
+const loading = ref(true)
+
+const employeeId = 'p_DrnEHzsrxaHOPnwwNDBwy' // Replace with dynamic ID
 
 // Fetch function to get employee data from API
-async function fetchEmployeeData(employeeId) {
+async function getEmployeeData(employeeId) {
   try {
-    const response = await fetch(`http://localhost:5000/employee/${employeeId}`)
-    const data = await response.json()
-    employee.value = data
+    loading.value = true
+    employee.value = await fetchEmployeeData(employeeId) // Use the imported fetch function
   } catch (err) {
-    console.error('Error fetching employee data:', err)
+    error.value = err.message || 'Failed to fetch employee data.'
+  } finally {
+    loading.value = false
   }
 }
 
-// Call the API when component is mounted
+// Call the API when the component is mounted
 onMounted(() => {
-  fetchEmployeeData(employeeId)
+  getEmployeeData(employeeId)
 })
 
 // Helper function to format salary to currency
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-CA', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'CAD',
+    currency: 'USD',
   }).format(amount)
 }
 
@@ -92,5 +97,5 @@ function formatDate(dateStr) {
 </script>
 
 <style scoped>
-/* You can add custom styling here if needed */
+/* Custom styles can go here if needed */
 </style>

@@ -2,58 +2,59 @@
   <div>
     <h1>Employee Tree</h1>
 
+    <!-- Error Message -->
     <div v-if="error" class="error">
       <p>⚠️ Failed to load employee tree:</p>
       <pre>{{ error }}</pre>
     </div>
 
+    <!-- Employee Tree -->
     <div v-else-if="root_employees && root_employees.length > 0">
-      <!-- <pre>{{ employee_tree }}</pre> -->
-
       <p>
-        This should include the employee id of the ceo
-        <!-- {{root_employees}} -->
-        {{root_employees[0].employee_id}}
-     </p>
+        This should include the employee id of the CEO:
+        {{ root_employees[0].employee_id }}
+      </p>
     </div>
 
+    <!-- Loading Screen -->
     <div v-else class="loading-screen">
       <div class="spinner"></div>
       <p>Loading employee tree...</p>
     </div>
 
+    <!-- Employee Card Component -->
     <EmployeeCard></EmployeeCard>
-
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Employee, buildEmployeeTree } from '@/models/Employee.js'
 import EmployeeCard from './components/EmployeeCard.vue'
+import { fetchEmployeeTree } from './services/employeeService' // Importing the fetch function from the service file
+import { buildEmployeeTree } from './models/Employee'
 
+// Variables to store employee data and errors
 const root_employees = ref([])
 const error = ref(null)
+const loading = ref(true) // Add loading state to show while fetching
 
-async function fetchEmployeeTree() {
+// Fetch employee tree on component mount
+onMounted(async () => {
   try {
-    const res = await fetch('http://localhost:5000/employee_tree')
-    const json = await res.json()
-
+    loading.value = true
+    const json = await fetchEmployeeTree() 
     root_employees.value = buildEmployeeTree(json)
-    console.log(root_employees.value[0].employee_id)
   } catch (err) {
-    console.error(err)
-    error.value = err.message || 'Unknown error'
+    console.log(err)
+    error.value = err.message || 'Failed to fetch employee data.'
+  } finally {
+    loading.value = false
   }
-}
-
-onMounted(() => {
-  fetchEmployeeTree()
 })
 </script>
 
 <style scoped>
+/* Loading screen styles */
 .loading-screen {
   display: flex;
   flex-direction: column;
@@ -78,6 +79,7 @@ onMounted(() => {
   }
 }
 
+/* Error message styles */
 .error {
   color: #b00020;
   background: #ffe6e6;
