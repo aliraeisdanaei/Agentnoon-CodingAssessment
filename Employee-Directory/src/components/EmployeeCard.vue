@@ -56,27 +56,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { fetchEmployeeData } from '../services/employeeService'
+import { ref, onMounted, defineProps } from 'vue'
+import { fetchEmployeeData } from '../services/employeeService' // Adjust this import to match your file structure
 
-// Props to receive data from the parent (App.vue)
-defineProps({
+// Define the props
+const props = defineProps({
   employee_id: {
     type: String,
     required: true,
   },
 })
 
+// Reactive data
 const employee = ref(null)
 const error = ref(null)
 const loading = ref(true)
 
-// Fetch employee data based on employee_id passed as prop
+// Fetch employee data based on the employee_id prop
 onMounted(async () => {
   try {
     loading.value = true
-    console.log(props.employee_id)
-    employee.value = await fetchEmployeeData(props.employee_id) // Fetch employee data using the employee_id
+    console.log('Fetching data for employee ID:', props.employee_id)
+    employee.value = await fetchEmployeeData(props.employee_id) // Assuming this function fetches data from your API
+    console.log(employee.value)
   } catch (err) {
     error.value = err.message || 'Failed to fetch employee data.'
   } finally {

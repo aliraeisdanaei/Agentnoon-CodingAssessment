@@ -43,8 +43,8 @@ onMounted(async () => {
     loading.value = true
     const json = await fetchEmployeeTree() 
     root_employees.value = buildEmployeeTree(json)
-    employee_shown = root_employees.value[0]
-    console.log("Found the ceo: ", employee_shown)
+    employee_shown.value = root_employees.value[0]
+    console.log("Found the ceo: ", employee_shown.value)
   } catch (err) {
     console.log(err)
     error.value = err.message || 'Failed to fetch employee data.'
