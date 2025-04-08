@@ -11,8 +11,9 @@
     <!-- Employee Tree -->
     <!-- <div v-else-if="root_employees && root_employees.length > 0"> -->
     <div v-else-if="employee_shown">
-      {{employee_shown.employee_id }}
-      <EmployeeCard :employee_id="employee_shown.employee_id"></EmployeeCard>
+      <!-- {{employee_shown.employee_id }} -->
+      <!-- <EmployeeCard :employee_id="employee_shown.employee_id"></EmployeeCard> -->
+       <EmployeeTree :employeeShown="employee_shown"></EmployeeTree>
     </div>
 
     <!-- Loading Screen -->
@@ -27,6 +28,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import EmployeeCard from './components/EmployeeCard.vue'
+import EmployeeTree from './components/EmployeeTree.vue'
 import { fetchEmployeeTree } from './services/employeeService' 
 import { buildEmployeeTree } from './models/Employee'
 

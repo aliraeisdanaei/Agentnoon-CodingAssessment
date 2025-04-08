@@ -1,18 +1,26 @@
 <template>
-  <div v-if="employee" class="max-w-4xl mx-auto 
-  bg-slate-200 p-6 rounded-lg shadow-lg border-2 border-gray-300 w-80 md:w-120">
+  <div v-if="employee" class="bg-slate-200 p-2 rounded-lg shadow-lg border-2 border-gray-300 max-w-xs sm:max-w-md md:max-w-lg mx-auto">
     <div class="flex justify-center mb-4">
-      <img :src="employee.photo" alt="Employee Photo" class="w-20 h-20 rounded-full border-4 border-primary">
+      <img :src="employee.photo" alt="Employee Photo" class="w-20 h-20 rounded-full border-4 border-primary object-cover">
     </div>
 
     <h2 class="text-2xl font-semibold text-center mb-2 text-gray-800">{{ employee.name }}</h2>
-    <p class="text-center text-sm text-gray-500">{{ employee.job_title }}</p>
+    <p class="text-center text-sm text-gray-500">
+      {{ employee.job_title }}
+      </br>
+      {{ employee.email }}
+      </br>
+      {{employee.employee_id }}
+    </p>
 
-    <div class="grid gap-6 mt-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
-      <div class="text-gray-700">
-        <strong>Email:</strong>
-        <p>{{ employee.email }}</p>
+    <p class="text-center text-sm text-gray-500">
+      <div v-if="employee.manager_id" class="text-gray-700">
+        <strong>Manager:</strong>
+        {{ employee.manager_id }}
       </div>
+    </p>
+
+    <div class="grid gap-4 mt-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
 
       <div class="text-gray-700">
         <strong>Department:</strong>
@@ -39,10 +47,6 @@
         <p>{{ formatDate(employee.start_date) }}</p>
       </div>
 
-      <div v-if="employee.manager_id" class="text-gray-700">
-        <strong>Manager:</strong>
-        <p>{{ employee.manager_id }}</p>
-      </div>
     </div>
 
     <div v-if="error" class="mt-6 text-center text-red-500 p-4 bg-red-100 rounded-md">
