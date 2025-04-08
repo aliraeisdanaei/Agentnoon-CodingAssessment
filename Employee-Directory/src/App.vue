@@ -21,12 +21,16 @@
       <div class="spinner"></div>
       <p>Loading employee tree...</p>
     </div>
+
+    <EmployeeCard></EmployeeCard>
+
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Employee, buildEmployeeTree } from '@/models/Employee.js'
+import EmployeeCard from './components/EmployeeCard.vue'
 
 const root_employees = ref([])
 const error = ref(null)
