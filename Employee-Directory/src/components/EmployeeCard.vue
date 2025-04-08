@@ -7,7 +7,6 @@
     <h2 class="text-2xl font-semibold text-center mb-2">{{ employee.name }}</h2>
     <p class="text-center text-sm text-gray-500">{{ employee.job_title }}</p>
 
-    <!-- Double Column Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
       <div class="text-gray-700">
         <strong>Email:</strong>
@@ -50,35 +49,39 @@
     </div>
   </div>
 
-  <!-- Loading State -->
-  <div v-else-if="loading" class="text-center">Loading...</div>
+  <div v-else class="loading-screen">
+    <div class="spinner"></div>
+    <p>Loading employee data...</p>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { fetchEmployeeData } from '../services/employeeService' // Import the fetch function
+import { fetchEmployeeData } from '../services/employeeService'
+
+// Props to receive data from the parent (App.vue)
+defineProps({
+  employee_id: {
+    type: String,
+    required: true,
+  },
+})
 
 const employee = ref(null)
 const error = ref(null)
 const loading = ref(true)
 
-const employeeId = 'p_DrnEHzsrxaHOPnwwNDBwy' // Replace with dynamic ID
-
-// Fetch function to get employee data from API
-async function getEmployeeData(employeeId) {
+// Fetch employee data based on employee_id passed as prop
+onMounted(async () => {
   try {
     loading.value = true
-    employee.value = await fetchEmployeeData(employeeId) // Use the imported fetch function
+    console.log(props.employee_id)
+    employee.value = await fetchEmployeeData(props.employee_id) // Fetch employee data using the employee_id
   } catch (err) {
     error.value = err.message || 'Failed to fetch employee data.'
   } finally {
     loading.value = false
   }
-}
-
-// Call the API when the component is mounted
-onMounted(() => {
-  getEmployeeData(employeeId)
 })
 
 // Helper function to format salary to currency
@@ -97,5 +100,4 @@ function formatDate(dateStr) {
 </script>
 
 <style scoped>
-/* Custom styles can go here if needed */
 </style>

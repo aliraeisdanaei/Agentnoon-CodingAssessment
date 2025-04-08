@@ -4,6 +4,7 @@ import { Employee, buildEmployeeTree } from '@/models/Employee.js'
 // Function to fetch employee data by employee_id
 export async function fetchEmployeeData(employeeId) {
     try {
+        console.log(employeeId)
         const response = await fetch(`http://localhost:5000/employee/${employeeId}`)
 
         if (!response.ok) {
