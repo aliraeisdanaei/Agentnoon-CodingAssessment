@@ -2,6 +2,7 @@ from dataclasses import dataclass, field, asdict
 from typing import Optional
 from datetime import datetime
 from typing import List, Dict, Tuple, ClassVar
+import math
 
 @dataclass
 class Employee:
@@ -224,7 +225,7 @@ class Employee:
         for subordinate in self.subordinates:
             s_num_descendants, s_management_cost, s_ic_cost, s_total_cost = subordinate.get_recursive_fields(reset=reset)
             s_salary = subordinate.salary
-            assert(s_ic_cost + s_management_cost == s_total_cost)
+            assert math.isclose(s_ic_cost + s_management_cost, s_total_cost, rel_tol=1e-9, abs_tol=1e-9), "Costs do not match within tolerance"
 
             self.num_descendants += 1 + s_num_descendants
 
@@ -335,7 +336,7 @@ class Employee:
         for subordinate in self.subordinates:
             s_total_cost = subordinate.get_total_cost(reset=reset)
             s_management_cost, s_ic_cost = subordinate.management_cost, subordinate.ic_cost
-            assert(s_ic_cost + s_management_cost == s_total_cost)
+            assert math.isclose(s_ic_cost + s_management_cost, s_total_cost, rel_tol=1e-9, abs_tol=1e-9), "Costs do not match within tolerance"
 
             if subordinate.is_individual():
                 assert(s_ic_cost == 0)

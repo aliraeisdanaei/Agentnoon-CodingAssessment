@@ -13,7 +13,8 @@ def create_app(employee_directory=None) -> Flask:
     CORS(app)
 
     def generate_employees_directory() -> Dict[str, Employee]:
-        SHEET_NAME = "Giga Corp (40k) - Sheet1 short.csv"
+        # SHEET_NAME = "Giga Corp (40k) - Sheet1 short.csv"
+        SHEET_NAME = "Giga Corp (40k) - Sheet1.csv"
         SHEET_PATH = os.path.join(os.path.dirname(__file__), 'data', 'Giga Corp (40k) - Sheet1 short.csv')
         employee_df = pd.read_csv(SHEET_PATH)
 
