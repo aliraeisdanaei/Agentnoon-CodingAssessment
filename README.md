@@ -32,6 +32,10 @@ pytest
 cd frontend
 npm install
 npm run dev
+
+# then just go to
+# http://localhost:5173/
+# to see the web app
 ```
 
 ## Contact Me
