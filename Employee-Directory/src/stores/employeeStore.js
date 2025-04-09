@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useEmployeeStore = defineStore('employee', {
     state: () => ({
-        employeeShown: null, // This will hold the employee data
+        employeeShown: null,
     }),
     actions: {
         // Action to update the employee data

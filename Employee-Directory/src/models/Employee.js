@@ -1,8 +1,8 @@
 class Employee {
     constructor(employee_id, manager = null) {
         this.employee_id = employee_id
-        this.manager = manager // Another Employee object or null
-        this.subordinates = [] // Array of Employee objects
+        this.manager = manager
+        this.subordinates = []
     }
 
     addSubordinate(sub) {

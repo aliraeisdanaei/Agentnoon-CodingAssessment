@@ -20,7 +20,6 @@ const props = defineProps({
 const employeeStore = useEmployeeStore()
 
 const handleClick = () => {
-  // Emit the event to the parent
   console.log('Setting the employee shown to', props.updatedEmployee)
   employeeStore.setEmployee(props.updatedEmployee)
 }

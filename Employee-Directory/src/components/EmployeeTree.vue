@@ -1,8 +1,5 @@
 <script setup>
-// import { ref } from 'vue'
 import EmployeeCard from './EmployeeCard.vue'
-// import { useEmployeeStore } from '@/stores/employeeStore'
-// const employeeStore = useEmployeeStore()
 
 const props = defineProps({
   employeeShown: {

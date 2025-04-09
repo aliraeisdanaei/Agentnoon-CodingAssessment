@@ -9,12 +9,8 @@
     </div>
 
     <!-- Employee Tree -->
-    <!-- <div v-else-if="root_employees && root_employees.length > 0"> -->
     <div v-else-if="employeeStore.employeeShown">
-      <!-- {{employeeShown.employee_id }} -->
-      <!-- <EmployeeCard :employee_id="employeeShown.employee_id"></EmployeeCard> -->
        <EmployeeTree :employeeShown="employeeStore.employeeShown"></EmployeeTree>
-       <!-- <EmployeeTree></EmployeeTree> -->
     </div>
 
     <!-- Loading Screen -->
@@ -39,7 +35,6 @@ const loading = ref(true)
 
 
 const employeeStore = useEmployeeStore()
-const employeeShown = employeeStore.employeeShown
 
 // Fetch employee tree on component mount
 onMounted(async () => {
