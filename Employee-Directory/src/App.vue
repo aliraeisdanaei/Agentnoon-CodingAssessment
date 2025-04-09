@@ -10,10 +10,11 @@
 
     <!-- Employee Tree -->
     <!-- <div v-else-if="root_employees && root_employees.length > 0"> -->
-    <div v-else-if="employee_shown">
-      <!-- {{employee_shown.employee_id }} -->
-      <!-- <EmployeeCard :employee_id="employee_shown.employee_id"></EmployeeCard> -->
-       <EmployeeTree :employeeShown="employee_shown"></EmployeeTree>
+    <div v-else-if="employeeStore.employeeShown">
+      <!-- {{employeeShown.employee_id }} -->
+      <!-- <EmployeeCard :employee_id="employeeShown.employee_id"></EmployeeCard> -->
+       <EmployeeTree :employeeShown="employeeStore.employeeShown"></EmployeeTree>
+       <!-- <EmployeeTree></EmployeeTree> -->
     </div>
 
     <!-- Loading Screen -->
@@ -27,30 +28,33 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-// import EmployeeCard from './components/EmployeeCard.vue'
 import EmployeeTree from './components/EmployeeTree.vue'
 import { fetchEmployeeTree } from './services/employeeService' 
 import { buildEmployeeTree } from './models/Employee'
+import { useEmployeeStore } from './stores/employeeStore'
 
-// Variables to store employee data and errors
-const root_employees = ref([])
 const error = ref(null)
 const loading = ref(true) 
 
-let employee_shown = ref(null)
+
+
+const employeeStore = useEmployeeStore()
+const employeeShown = employeeStore.employeeShown
 
 // Fetch employee tree on component mount
 onMounted(async () => {
   try {
     loading.value = true
     const json = await fetchEmployeeTree() 
-    root_employees.value = buildEmployeeTree(json)
-    employee_shown.value = root_employees.value[0]
-    console.log("Found the ceo: ", employee_shown.value)
+    const root_employees = buildEmployeeTree(json)
+    const ceo = root_employees[0]
+    employeeStore.setEmployee(ceo)
+    console.log("Found the ceo: ", employeeStore.employeeShown)
   } catch (err) {
     console.log(err)
     error.value = err.message || 'Failed to fetch employee data.'
   } finally {
+    console.log("setting loading to false")
     loading.value = false
   }
 })

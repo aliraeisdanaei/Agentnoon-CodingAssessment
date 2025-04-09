@@ -1,6 +1,8 @@
 <script setup>
 // import { ref } from 'vue'
 import EmployeeCard from './EmployeeCard.vue'
+// import { useEmployeeStore } from '@/stores/employeeStore'
+// const employeeStore = useEmployeeStore()
 
 const props = defineProps({
   employeeShown: {
@@ -14,7 +16,8 @@ const props = defineProps({
   <div class="space-y-6">
 
     <div class="w-full flex items-center justify-center">
-        <EmployeeCard :employeeShown="employeeShown" :parent-in-tree="employeeShown"></EmployeeCard>
+        <EmployeeCard :key="employeeShown.employee_id"
+        :employeeShown="employeeShown" :parent-in-tree="employeeShown"></EmployeeCard>
     </div> 
 
     <div v-if="employeeShown.subordinates && employeeShown.subordinates.length" 

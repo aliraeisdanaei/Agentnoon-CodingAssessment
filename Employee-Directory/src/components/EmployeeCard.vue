@@ -2,7 +2,7 @@
   <div v-if="employee" class="bg-slate-200 p-2 rounded-lg shadow-lg border-2 border-gray-300 max-w-xs sm:max-w-md md:max-w-lg mx-auto">
     <div v-if="employee.manager_id && 
       (parentInTree && employee.manager_id != parentInTree.employee_id)">
-      <Button>
+      <Button :updatedEmployee="employeeShown.manager">
         Up
       </Button>
     </div>
@@ -57,8 +57,8 @@
       <div v-if="employeeShown.subordinates && employeeShown.subordinates.length > 0
         && (parentInTree && parentInTree != employeeShown)
         ">
-        <Button>Down
-
+        <Button :updatedEmployee="employeeShown">
+          Down
         </Button>
       </div>
 
