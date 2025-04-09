@@ -54,6 +54,21 @@
         <p>{{ formatDate(employee.start_date) }}</p>
       </div>
 
+      <div class="text-green-700">
+        <strong>Number of Descendants:</strong>
+        <p>{{ employee.num_descendants }}</p>
+      </div>
+
+      <div class="text-green-700">
+        <strong>Management Cost:</strong>
+        <p>{{ formatCurrency(employee.management_cost) }}</p>
+      </div>
+
+      <div class="text-green-700">
+        <strong>IC Cost:</strong>
+        <p>{{ formatCurrency(employee.ic_cost) }}</p>
+      </div>
+
       <div v-if="employeeShown.subordinates && employeeShown.subordinates.length > 0
         && (parentInTree && parentInTree != employeeShown)
         ">
@@ -113,9 +128,9 @@ onMounted(async () => {
 
 // Helper function to format salary to currency
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-CA', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'CAD',
   }).format(amount)
 }
 
