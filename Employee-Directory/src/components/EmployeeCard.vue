@@ -1,5 +1,12 @@
 <template>
   <div v-if="employee" class="bg-slate-200 p-2 rounded-lg shadow-lg border-2 border-gray-300 max-w-xs sm:max-w-md md:max-w-lg mx-auto">
+    <div v-if="employee.manager_id && 
+      (parentInTree && employee.manager_id != parentInTree.employee_id)">
+      <Button>
+        Up
+      </Button>
+    </div>
+
     <div class="flex justify-center mb-4">
       <img :src="employee.photo" alt="Employee Photo" class="w-20 h-20 rounded-full border-4 border-primary object-cover">
     </div>
@@ -47,6 +54,14 @@
         <p>{{ formatDate(employee.start_date) }}</p>
       </div>
 
+      <div v-if="employeeShown.subordinates && employeeShown.subordinates.length > 0
+        && (parentInTree && parentInTree != employeeShown)
+        ">
+        <Button>Down
+
+        </Button>
+      </div>
+
     </div>
 
     <div v-if="error" class="mt-6 text-center text-red-500 p-4 bg-red-100 rounded-md">
@@ -63,13 +78,18 @@
 <script setup>
 import { ref, onMounted} from 'vue'
 import { fetchEmployeeData } from '../services/employeeService' // Adjust this import to match your file structure
+import Button from './Button.vue'
 
 // Define the props
 const props = defineProps({
-  employee_id: {
-    type: String,
+  employeeShown: {
+    type: Object,
     required: true,
   },
+  parentInTree: {
+    type: Object, 
+    required: false,
+  }
 })
 
 // Reactive data
@@ -81,8 +101,8 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     loading.value = true
-    console.log('Fetching data for employee ID:', props.employee_id)
-    employee.value = await fetchEmployeeData(props.employee_id) // Assuming this function fetches data from your API
+    console.log('Fetching data for employee ID:', props.employeeShown.employee_id)
+    employee.value = await fetchEmployeeData(props.employeeShown.employee_id) // Assuming this function fetches data from your API
     console.log(employee.value)
   } catch (err) {
     error.value = err.message || 'Failed to fetch employee data.'

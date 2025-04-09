@@ -14,7 +14,7 @@ const props = defineProps({
   <div class="space-y-6">
 
     <div class="w-full flex items-center justify-center">
-        <EmployeeCard :employee_id="employeeShown.employee_id"></EmployeeCard>
+        <EmployeeCard :employeeShown="employeeShown" :parent-in-tree="employeeShown"></EmployeeCard>
     </div> 
 
     <div v-if="employeeShown.subordinates && employeeShown.subordinates.length" 
@@ -24,7 +24,7 @@ const props = defineProps({
            class="w-full sm:w-1/2 lg:w-1/5 xl:w-1/6">
         <!-- Ensure the EmployeeCard has a max-width and proper padding -->
         <div class="w-full p-2">
-          <EmployeeCard :employee_id="sub.employee_id"></EmployeeCard>
+          <EmployeeCard :employeeShown="sub" :parent-in-tree="employeeShown"></EmployeeCard>
         </div>
       </div>
     </div>

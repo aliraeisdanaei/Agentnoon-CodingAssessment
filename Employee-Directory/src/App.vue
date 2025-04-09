@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import EmployeeCard from './components/EmployeeCard.vue'
+// import EmployeeCard from './components/EmployeeCard.vue'
 import EmployeeTree from './components/EmployeeTree.vue'
 import { fetchEmployeeTree } from './services/employeeService' 
 import { buildEmployeeTree } from './models/Employee'
