@@ -2,7 +2,7 @@
   <div v-if="employee" class="bg-slate-200 p-2 rounded-lg shadow-lg border-2 border-gray-300 max-w-xs sm:max-w-md md:max-w-lg mx-auto">
     <div v-if="employee.manager_id && 
       (parentInTree && employee.manager_id != parentInTree.employee_id)">
-      <Button>
+      <Button :updatedEmployee="employeeShown.manager" @updateEmployeeButton="handleUpdateEmployeeCard">
         Up
       </Button>
     </div>
@@ -57,8 +57,8 @@
       <div v-if="employeeShown.subordinates && employeeShown.subordinates.length > 0
         && (parentInTree && parentInTree != employeeShown)
         ">
-        <Button>Down
-
+        <Button :updatedEmployee="employeeShown" @updateEmployeeButton="handleUpdateEmployeeCard">
+          Down
         </Button>
       </div>
 
@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted} from 'vue'
+import { ref, defineEmits, onMounted } from 'vue'
 import { fetchEmployeeData } from '../services/employeeService' // Adjust this import to match your file structure
 import Button from './Button.vue'
 
@@ -110,6 +110,12 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const emitCard = defineEmits(['updateEmployeeCard'])
+const handleUpdateEmployeeCard = (updatedEmployee) => {
+  console.log("Re-emitting the updated employee: ", updatedEmployee)
+  emitCard('updateEmployeeCard', updatedEmployee)
+}
 
 // Helper function to format salary to currency
 function formatCurrency(amount) {

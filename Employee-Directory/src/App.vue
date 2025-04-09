@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>Employee Tree</h1>
+    <h1 v-if="employeeShown?.name">Employee Tree for {{ employeeShown.name }}</h1>
+    <h1 v-else>Employee Tree</h1>
 
     <!-- Error Message -->
     <div v-if="error" class="error">
@@ -10,10 +11,12 @@
 
     <!-- Employee Tree -->
     <!-- <div v-else-if="root_employees && root_employees.length > 0"> -->
-    <div v-else-if="employee_shown">
+    <div v-else-if="employeeShown">
       <!-- {{employee_shown.employee_id }} -->
       <!-- <EmployeeCard :employee_id="employee_shown.employee_id"></EmployeeCard> -->
-       <EmployeeTree :employeeShown="employee_shown"></EmployeeTree>
+       <EmployeeTree :employeeShown="employeeShown" 
+        @updateEmployeeTree="handleUpdateEmployee" 
+       ></EmployeeTree>
     </div>
 
     <!-- Loading Screen -->
@@ -37,7 +40,7 @@ const root_employees = ref([])
 const error = ref(null)
 const loading = ref(true) 
 
-let employee_shown = ref(null)
+let employeeShown = ref(null)
 
 // Fetch employee tree on component mount
 onMounted(async () => {
@@ -45,8 +48,8 @@ onMounted(async () => {
     loading.value = true
     const json = await fetchEmployeeTree() 
     root_employees.value = buildEmployeeTree(json)
-    employee_shown.value = root_employees.value[0]
-    console.log("Found the ceo: ", employee_shown.value)
+    employeeShown.value = root_employees.value[0]
+    console.log("Found the ceo: ", employeeShown.value)
   } catch (err) {
     console.log(err)
     error.value = err.message || 'Failed to fetch employee data.'
@@ -54,6 +57,12 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const handleUpdateEmployee = (updatedEmployee) => {
+  console.log('Finally changing the employee at the app level', updatedEmployee)
+  employeeShown.value = { ...updatedEmployee }
+}
+
 </script>
 
 <style scoped>
